@@ -34,3 +34,17 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# Tensorflow lite
+Tensorflow
+
+# Keras
+Models/kerasdeepnn/variables
+
+# CMake & makefiles
+cmake*
+Makefile
+Makefile.inc
+
+# Various 
+.DS_Store
