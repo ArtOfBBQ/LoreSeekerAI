@@ -36,3 +36,7 @@ model %>% fit(
 	batch_size=500,
 	validation_data = list(test_x, test_y),
 	verbose = 2)
+
+setwd("/users/jelle/documents/github/LoreSeekerAI/models")
+
+model %>% save_model_tf("kerasdeepnn")

@@ -35,6 +35,9 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 
+# flatbuffers
+flatbuffers
+
 # Tensorflow lite
 Tensorflow
 
@@ -45,6 +48,15 @@ Models/kerasdeepnn/variables
 cmake*
 Makefile
 Makefile.inc
+
+# produced executables
+Inference/hellotsf
+
+# produced predictive models
+*.pb
+
+# vim swap files
+*.swp
 
 # Various 
 .DS_Store
