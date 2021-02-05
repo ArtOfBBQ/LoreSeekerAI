@@ -40,6 +40,7 @@ flatbuffers
 
 # Tensorflow lite
 Tensorflow
+tflite_build
 
 # Keras
 Models/kerasdeepnn/variables
@@ -54,6 +55,7 @@ Inference/hellotsf
 
 # produced predictive models
 *.pb
+AI_weights_layer*.csv
 
 # vim swap files
 *.swp
