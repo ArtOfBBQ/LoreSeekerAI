@@ -2,7 +2,7 @@ read_loreseeker_data <- function(filename) {
     dat <- read.csv(paste0("/users/jelle/documents/github/helloworldcpp/data/", filename))
     dat <- dat[complete.cases(dat),]
     dat$winner_i <- NULL
-
+	
     game_ids <- unique(dat$game_id)
     test_game_ids <- sample(game_ids, length(game_ids)/8)
 
@@ -15,11 +15,11 @@ read_loreseeker_data <- function(filename) {
     train <- as.matrix(train)
     test <- as.matrix(test)
 
-    train_x <- train[, -929]
-    train_y <- train[, 929]
-    test_x <- test[, -929]
-    test_y <- test[, 929]
-
+    train_x <- train[, colnames(train) != "won_game"]
+    train_y <- train[, colnames(train) == "won_game"]
+    test_x <- test[, colnames(test) != "won_game"]
+    test_y <- test[, colnames(test) == "won_game"]
+	
     return(list(
         "train_x" = train_x,
         "train_y" = train_y,

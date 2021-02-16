@@ -2,12 +2,11 @@ require(keras)
 
 setwd("/users/jelle/documents/github/LoreSeekerAI/models")
 source("../Queries/read_ls_data.R")
-model <- load_model_tf("kerasdeepnn")
 
 setwd("/users/jelle/documents/github/helloworldcpp/data")
 
-l1reglambda <- 0.0001
-lambda <- 0.002
+l1reglambda <- 0.00005
+lambda <- 0.001
 
 # layers:
 # 60 -> 10 got about 0.774 in 1 run
@@ -27,19 +26,11 @@ lambda <- 0.002
 model <- keras_model_sequential()
 model %>%
     layer_dense(
-        units = 60,
+        units = 6,
         activation = "relu",
         kernel_regularizer = regularizer_l1_l2(
             l1 = l1reglambda,
             l2 = lambda)) %>%
-    layer_dropout(rate = 0.15) %>% 
-    layer_dense(
-        units = 17,
-        activation = "relu",
-        kernel_regularizer = regularizer_l1_l2(
-            l1 = l1reglambda,
-            l2 = lambda)) %>%
-    layer_dropout(rate = 0.07) %>%
     layer_dense(
         units = 1,
         activation = 'sigmoid',
@@ -51,7 +42,7 @@ model %>%
 # lr = 0.00008, rho = 0.9 did well on 1 training set
 model %>% compile(
     optimizer = optimizer_rmsprop(
-        lr = 0.001,
+        lr = 0.0012,
         rho = 0.9,
         epsilon = NULL,
         decay = 0,
@@ -60,32 +51,20 @@ model %>% compile(
     loss = loss_binary_crossentropy,
     metrics = metric_binary_accuracy)
 
-for (i in 0:2) {
-    print(paste0("training iteration: ", i))
-    if (i < 10) {
-        data_list <- read_loreseeker_data(
-        paste0("sim0", i, ".csv"))
-    } else {
-        data_list <- read_loreseeker_data(
-        paste0("sim", i, ".csv"))
-    }
+data_list <- read_loreseeker_data("summary.csv")
     
-    # 105 epochs of 512 batches gave 0.762 in 1 run
-    # 220 epochs of 256 batches gave 0.78 in 1 run
-    # 220 epochs of 124 batches gave 0.771 in 1 run
-    # 440 epochs of 124 batches gave 0.773 in 1 run
-    # best result we've had was epochs 220 x batch_size 256 for 0.78 in 1 run
-    model %>% fit(
-        data_list$train_x,
-        data_list$train_y,
-        epochs = round(nrow(data_list$train_x) / 256),
-        batch_size= 256,
-        validation_data = list(data_list$test_x, data_list$test_y),
-        verbose = 2)
-    
-    rm(data_list)
-    gc()
-}
+# 105 epochs of 512 batches gave 0.762 in 1 run
+# 220 epochs of 256 batches gave 0.78 in 1 run
+# 220 epochs of 124 batches gave 0.771 in 1 run
+# 440 epochs of 124 batches gave 0.773 in 1 run
+# best result we've had was epochs 220 x batch_size 256 for 0.78 in 1 run
+model %>% fit(
+    data_list$train_x,
+    data_list$train_y,
+    epochs = round(nrow(data_list$train_x) / 32),
+    batch_size= 64,
+    validation_data = list(data_list$test_x, data_list$test_y),
+    verbose = 2)
 
 setwd("/users/jelle/documents/github/LoreSeekerAI/models")
 

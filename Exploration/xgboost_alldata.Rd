@@ -6,6 +6,7 @@ source("Queries/read_ls_data.R")
 nrounds_per_file <- 50
 # 1x50 + 18 x 5 rounds for ~82% accuracy
 # 18 x 15 rounds for ~82%x accuracy
+# 18 x 50 rounds for ~82% accuracy
 
 data_list <- read_loreseeker_data("sim00.csv")
 myxgb <- xgboost(
